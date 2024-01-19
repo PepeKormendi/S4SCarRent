@@ -1,0 +1,86 @@
+@Metadata.layer: #CORE
+
+@UI: { headerInfo: { typeName: 'Booking',
+                     typeNamePlural: 'Bookings',
+                     title: { type: #STANDARD, value: 'BookingID' } } }
+annotate entity zszakd_C_CARBOOKINGS with
+{
+  @UI.facet: [ { id:            'Booking',
+                 purpose:       #STANDARD,
+                 type:          #IDENTIFICATION_REFERENCE,
+                 label:         'Foglalás',
+                 position:      10 },
+                 { id:            'ConvertCur',
+                 targetQualifier: 'ConvCurrency',
+                purpose:       #STANDARD,
+                type:          #FIELDGROUP_REFERENCE,
+                label:         'Valutaváltás',
+                hidden: #( IsActiveEntity ),
+                position:      20
+                } ]
+  @UI.hidden: true
+  BookingUUID;
+  @UI.hidden: true
+  CarUUID;
+
+  @UI: { lineItem:       [ { position: 20, importance: #HIGH } ],
+         identification: [ { position: 20, label: 'Foglalás azonosító' } ] }
+  BookingID;
+
+  @UI: { lineItem:       [ { position: 30, importance: #HIGH } ],
+       identification: [ { position: 30, label: 'Foglalás dátuma' } ] }
+  BookingDate;
+  @UI.textArrangement: #TEXT_ONLY
+  @UI: { lineItem:       [ { position: 40,
+                             importance: #HIGH,
+                              type: #AS_CONTACT,
+                              label: 'Kontakt gyorsnézet',
+                              value: '_CustomerNew'
+                             } ],
+         identification: [ { position: 40 , label: 'Ügyfél id',
+                                 type: #WITH_INTENT_BASED_NAVIGATION,
+                                 semanticObject: 'ZPARTNER1',
+                                 semanticObjectAction: 'display'
+          } ] }
+
+  CustomerUuid;
+  @UI: { fieldGroup: [ { qualifier: 'ConvCurrency', position: 10, label: 'Foglalás összege a választott valutában' }]  }
+  PriceInHuf;
+  @UI: { fieldGroup: [ { qualifier: 'ConvCurrency', position: 20, label: 'Választott valuta' }]  }
+  CurCodeDummy;
+
+  //  @UI: { identification: [ { position: 110, label: 'Ügyfél neve'
+  //   ,
+  //                                 type: #WITH_INTENT_BASED_NAVIGATION,
+  //                                 semanticObject: 'ZPARTNER1',
+  //                                 semanticObjectAction: 'display'
+  //                                } ]  }
+  //  CustName;
+
+  @UI: { lineItem:       [ { position: 50, importance: #HIGH } ],
+       identification: [ { position: 50, label: 'Foglalási ár' } ] }
+  BookPrice;
+
+  @UI: { lineItem:       [ { position: 60, importance: #HIGH } ],
+         identification: [ { position: 60, label: 'Foglalás kezdete'
+  //
+          } ] }
+  BookedFrom;
+
+  @UI: { lineItem:       [ { position: 70, importance: #HIGH } ],
+         identification: [ { position: 70, label: 'Foglalás vége' } ] }
+  BookedTo;
+
+  @UI: { lineItem:       [ { position: 90, importance: #HIGH, label: 'Foglalás státusza' }],
+         identification: [ { position: 90 , label: 'Foglalás sátusza'} ],
+         textArrangement: #TEXT_ONLY }
+  BookingStatus;
+  @UI.lineItem: [   
+      { type: #FOR_ACTION, dataAction: 'cartransfer', label: 'Autó átadása'     , position: 100 },
+      { type: #FOR_ACTION, dataAction: 'carreturn',   label: 'Autó visszavétel' , position: 110 } ]
+  @UI.hidden: true
+  BookingStatusText;
+
+  @UI.hidden: true
+  LocalLastChangedAt;
+}

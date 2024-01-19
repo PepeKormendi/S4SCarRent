@@ -1,0 +1,24 @@
+@Metadata.layer: #CORE
+@UI: { headerInfo: { typeName: 'Currency',
+                     typeNamePlural: 'Currencies',
+
+                     title: { type: #STANDARD, value: 'CurrencyCode' } },
+       presentationVariant: [{ sortOrder: [{ by: 'CurrencyCode', direction: #DESC }], visualizations: [{type: #AS_LINEITEM}]  }] }
+
+annotate entity ZSZAKD_C_CUR_EX with
+{
+  @UI.facet: [{ id:            'Deviza árfolyam',
+                purpose:       #STANDARD,
+                type:          #IDENTIFICATION_REFERENCE,
+                label:         'Deviza',
+                position:      10 }]
+  @UI: { lineItem:       [ { position: 10, importance: #HIGH, label: 'Deviza' } ],
+  identification: [ { position: 10, label: 'Deviza' } ],
+  selectionField: [ { position: 10 } ] }
+  CurrencyCode;
+  @UI: { lineItem:       [ { position: 20, importance: #HIGH, label: 'Árfolyam' } ] ,
+  identification: [ { position: 20, label: 'Árfolyam' } ],
+  selectionField: [ { position: 20 } ] }
+  ExchangeRate;
+
+}

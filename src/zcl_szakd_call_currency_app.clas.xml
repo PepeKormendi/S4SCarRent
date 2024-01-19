@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_CLAS" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <VSEOCLASS>
+    <CLSNAME>ZCL_SZAKD_CALL_CURRENCY_APP</CLSNAME>
+    <LANGU>H</LANGU>
+    <DESCRIPT>Call Currency exchange REST API</DESCRIPT>
+    <STATE>1</STATE>
+    <CLSCCINCL>X</CLSCCINCL>
+    <FIXPT>X</FIXPT>
+    <UNICODE>X</UNICODE>
+   </VSEOCLASS>
+   <DESCRIPTIONS>
+    <SEOCOMPOTX>
+     <CMPNAME>GC_EXCHANGERATE_APIKEY</CMPNAME>
+     <LANGU>H</LANGU>
+     <DESCRIPT>ExchangeRate-API Api-kulcs</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>GC_EXCHANGE_URL</CMPNAME>
+     <LANGU>H</LANGU>
+     <DESCRIPT>ExchangeRate-Api url</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CMPNAME>GV_REQUESTURL</CMPNAME>
+     <LANGU>H</LANGU>
+     <DESCRIPT>Sztring</DESCRIPT>
+    </SEOCOMPOTX>
+   </DESCRIPTIONS>
+   <DESCRIPTIONS_SUB>
+    <SEOSUBCOTX>
+     <CMPNAME>CREATE_HTTP_CLIENT</CMPNAME>
+     <SCONAME>RV_SUCCESS</SCONAME>
+     <LANGU>H</LANGU>
+     <DESCRIPT>Általános flag</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>MAIN</CMPNAME>
+     <SCONAME>RV_SUCCESS</SCONAME>
+     <LANGU>H</LANGU>
+     <DESCRIPT>Általános flag</DESCRIPT>
+    </SEOSUBCOTX>
+    <SEOSUBCOTX>
+     <CMPNAME>RECEIVE_RESPONSE</CMPNAME>
+     <SCONAME>RV_SUCCESS</SCONAME>
+     <LANGU>H</LANGU>
+     <DESCRIPT>Általános flag</DESCRIPT>
+    </SEOSUBCOTX>
+   </DESCRIPTIONS_SUB>
+  </asx:values>
+ </asx:abap>
+</abapGit>

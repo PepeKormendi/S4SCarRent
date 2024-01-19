@@ -1,0 +1,2 @@
+sap.ui.define(["sap/m/MessageToast","sap/ui/core/mvc/Controller","sap/ui/core/Fragment"],function(e,n,o){"use strict";return{onExchange:function(n){e.show("Custom handler invoked.")}}});                                                                     
+//# sourceMappingURL=ObjectPageExt.controller.js.map                                                                                                                                                                                                           

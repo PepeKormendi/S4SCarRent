@@ -1,0 +1,28 @@
+projection;
+strict;
+use draft;
+
+define behavior for ZSZAKD_C_CARS alias Car
+{
+  use create;
+  use update;
+  use delete;
+
+  use action Resume;
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Prepare;
+  use action ValidatesBooking;
+  use association _Booking { create; with draft; }
+}
+
+define behavior for zszakd_C_CARBOOKINGS alias Booking
+{
+  use update;
+  use delete;
+  use action ValidatesBook;
+  use action carreturn;
+  use action cartransfer;
+  use association _Car { with draft; }
+}

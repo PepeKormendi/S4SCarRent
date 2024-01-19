@@ -1,0 +1,5 @@
+CLASS zcl_szakdcars_behave DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zszakd_i_cars.
+ENDCLASS.
+
+CLASS zcl_szakdcars_behave IMPLEMENTATION.
+ENDCLASS.

@@ -1,0 +1,3 @@
+sap.ui.define(["sap/m/MessageToast","sap/ushell/services/CrossApplicationNavigation","sap/ushell/services/Container"],function(e,s,a){"use strict";return{navigate:function(e){var s=a.getService("CrossApplicationNavigation");s.toExternal({target:{semantic+
+Object:"zcustomer",action:"display"}})}}});                                                                                                                                                                                                                    
+//# sourceMappingURL=ListReportExt.controller.js.map                                                                                                                                                                                                           

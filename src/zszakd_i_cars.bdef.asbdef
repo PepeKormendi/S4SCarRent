@@ -1,0 +1,129 @@
+managed with additional save implementation in class zcl_szakdcars_behave unique;
+strict;
+with draft;
+
+define behavior for Zszakd_I_CARS alias Car
+
+persistent table zszakd_cars
+draft table zszakd_cars_d
+lock master
+total etag LastChangedAt
+authorization master ( global, instance )
+etag master LocalLastChangedAt
+{
+  create;
+  update;
+  delete;
+  association _Booking { create ( features : instance, authorization : update ); with draft; }
+  field ( numbering : managed, readonly ) CarUUID;
+  field ( readonly ) Status, LocalCreatedAt, LocalCreatedBy, LocalLastChangedAt, LocalLastChangedBy;
+  field ( mandatory ) PlatNum;
+
+  field ( features : instance ) Img;
+  //    field ( features : instance ) Dailyprice;
+  //   Updatenél, ha átlép 5.000 es léptéket a kilométer az elmúlt álláshoz képest akkor Szervízbe küldi
+  determination updateManStatus on modify { update; field Status; }
+  //  determination setManStatus on save { create; field Status; }
+  // ez nézi, hogy van-e már ilyen rendszám és hogy megfelel-e a AA-AA-123 musternak
+  validation validatePlateNumber on save { create; field PlatNum; }
+  // ez nézi, hogy a jelenlegi évnél nem nagyobb a megadott évszám
+  validation validateManYear on save { create; field Yearmanufact; }
+
+  draft action Resume with additional implementation;
+  draft action Edit;
+  draft action Activate;
+  draft action Discard;
+
+  determine action ValidatesBooking
+  {
+    validation Booking ~ validateDates;
+  }
+  draft determine action Prepare
+  {
+    validation validatePlateNumber;
+    validation validateManYear;
+    validation Booking ~ validateCustomer;
+    validation Booking ~ validateDates;
+  }
+  mapping for zszakd_cars
+  {
+    CarUUID = car_uuid;
+    PlatNum = platenum;
+    Brand = brand;
+    Model = model;
+    Enginetype = enginetype;
+    Img = img;
+    Yearmanufact = yearmanufact;
+    Kilometers = kilometers;
+    Dailyprice = dailyprice;
+    CurrencyCode = currency_code;
+    Status = status;
+    Numofseats = numofseats;
+    Url = url;
+    LastChangedAt = last_changed_at;
+    LocalCreatedAt = local_created_at;
+    LocalCreatedBy = local_created_by;
+    LocalLastChangedAt = local_last_changed_at;
+    LocalLastChangedBy = local_last_changed_by;
+  }
+
+}
+
+define behavior for Zszakd_I_CARBOOKINGS alias Booking
+implementation in class zcl_szakdbookings_behave unique
+persistent table zszakdcarbokings
+draft table zszakd_carbookid
+lock dependent by _Car
+authorization dependent by _Car
+etag master LocalLastChangedAt
+{
+  update;
+  delete;
+  association _Car { with draft; }
+  field ( numbering : managed, readonly ) BookingUUID;
+  field ( readonly ) BookPrice, CarUUID, BookingID, BookingDate, LocalLastChangedAt, CurrencyCode;
+  field ( mandatory ) CustomerID, BookedFrom, BookedTo;
+
+  // ha kiválasztunk egy partnert, akkor annak töltse be az e-mail címét egy új email mezőbe:
+  //  determination setEmail on save { create; }
+  // ez állítja a BookingID -t
+  determination setBookingNumber on save { create; }
+  // ez számolja a foglalás árát a napidíj és a foglalt napok alapján
+  determination calculateBookPrice on modify { create; field BookedFrom, BookedTo; }
+  // ez konvertálja az árat:
+  determination convertBookPrice on modify { create; field BookPrice, CurCodeDummy; }  //  validation validDate on
+  validation validateDatesBook on save { field BookedFrom, BookedTo; }
+
+
+  determine action ValidatesBook
+  {
+    validation validateDatesBook;
+  }
+  determination setCustomerLink on modify { field CustomerUuid; }
+
+  // ez állítja a bookingDate-t a system datumra
+  determination setBookingDate on save { create; field BookingDate; }
+
+  determination DefaultValuesFunction on modify { create; }
+  // ez nézi, hogy létező partner-e
+  validation validateCustomer on save { create; field CustomerID; }
+  // ennek kéne nézni, hogy van-e már foglalás az adott idősávban az adott kocsira
+  validation validateDates on save { create; update; field BookedFrom, BookedTo; }
+  action carreturn;
+  action cartransfer;
+  mapping for ZSZAKDCARBOKINGS
+  {
+    BookingUUID = booking_uuid;
+    BookPrice = book_price;
+    BookedFrom = booked_from;
+    BookedTo = booked_to;
+    BookingDate = booking_date;
+    BookingID = booking_id;
+    BookingStatus = booking_status;
+    CustomerUuid = customer_uuid;
+    CustomerID = customer_id;
+    CurrencyCode = currency_code;
+    CarUUID = parent_uuid;
+    LocalLastChangedAt = local_last_changed_at;
+  }
+}
